@@ -1,4 +1,5 @@
-import { Nav } from "@/components/Nav";
+import SideNav from "@/components/Nav/SideNav";
+import TopNav from "@/components/Nav/TopNav";
 import { Box, Container } from "@mui/material";
 import { ReactNode } from "react";
 interface Props {
@@ -6,9 +7,17 @@ interface Props {
 }
 export default function Template({ children }: Props) {
   return (
-    <Box display={"flex"} flexDirection={"row"}>
-      <Nav />
-      {children}
-    </Box>
+    <div>
+      <TopNav />
+      <SideNav />
+      <Box
+        display={"flex"}
+        flexDirection={"row"}
+        paddingTop={"50px"}
+        component={"main"}
+      >
+        {children}
+      </Box>
+    </div>
   );
 }

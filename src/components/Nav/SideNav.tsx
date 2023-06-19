@@ -1,27 +1,37 @@
-import { Button, Collapse, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader, styled } from "@mui/material";
+import {
+  Button,
+  Collapse,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from "@mui/material";
 import { useState } from "react";
-import {ExpandLess, ExpandMore} from '@mui/icons-material';
-export default function Nav() {
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+export default function SideNav() {
   const [open, setOpen] = useState(true);
-
   const handleClick = () => {
     setOpen(!open);
   };
   return (
-    <StyledNav>
-      <List
-      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+    <List
+      sx={{
+        width: "100%",
+        maxWidth: 360,
+        bgcolor: "background.paper",
+        position: "fixed",
+        top: 0,
+        left: 0,
+      }}
       component="nav"
       aria-labelledby="nested-list-subheader"
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
-          Nested List Items
+          메뉴
         </ListSubheader>
       }
     >
-      <ListItemButton>
-        <ListItemText primary="Sent mail" />
-      </ListItemButton>
       <ListItemButton>
         <ListItemText primary="Drafts" />
       </ListItemButton>
@@ -37,12 +47,5 @@ export default function Nav() {
         </List>
       </Collapse>
     </List>
-    </StyledNav>
   );
 }
-
-const StyledNav = styled('nav')({
-  width: "300px",
-  position: 'sticky',
-  top: 0,
-});
