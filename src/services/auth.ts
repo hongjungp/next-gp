@@ -1,5 +1,5 @@
 import LoginInfo from "@/types/LoginForm";
-import instance from "./instance";
+import { instance } from "./instance";
 
 async function login(loginInfo: LoginInfo): Promise<Result> {
   try {

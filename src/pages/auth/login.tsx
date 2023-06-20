@@ -7,11 +7,11 @@ import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 // import { useSession, signIn, signOut } from "next-auth/react"
 
 export default function LoginPage() {
-  const [logged, setLogged] = useRecoilState(loginState);
+  const setLogged = useSetRecoilState(loginState);
   const router = useRouter();
   const [usrId, setUsrId] = useState("");
   const [password, setPassword] = useState("");
@@ -91,17 +91,17 @@ export default function LoginPage() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const cookies = parseCookies(context);
-  let {JSESSIONID} = cookies;
-  if(JSESSIONID){
-    console.log('logged!');
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      }
-    }
-  }
+  // const cookies = parseCookies(context);
+  // let {JSESSIONID} = cookies;
+  // if(JSESSIONID){
+  //   console.log('logged!');
+  //   return {
+  //     redirect: {
+  //       destination: '/',
+  //       permanent: false,
+  //     }
+  //   }
+  // }
   return {
     props:{},
   }

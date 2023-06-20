@@ -1,66 +1,52 @@
-import instance from "@/services/instance";
+import withAuth, { withAuthGetServerSideProps } from "@/hooks/withAuth";
+import { menuService } from "@/services/menu";
 import { loginState } from "@/state/loginState";
 import Template from "@/templates/Template";
-import { Button, Container, Typography } from "@mui/material";
-import { GetServerSidePropsContext } from "next";
-import { parseCookies, setCookie } from "nookies";
+import { Button, Container, Menu, Typography } from "@mui/material";
 import { useEffect } from "react";
+import { QueryClient, dehydrate, useQuery } from "react-query";
 import { useSetRecoilState } from "recoil";
-interface Props{
+interface Props {
   sessionId: string;
 }
-export default function Home({sessionId}: Props) {
-  // const session = useSession();
+function Home({ sessionId }: Props) {
   const setLogged = useSetRecoilState(loginState);
-  useEffect(() => {
-    if (sessionId) {
-      console.log(sessionId);
-      console.log(123);
-      setLogged(true);
-    }
-  }, [sessionId, setLogged]);
-  // console.log(session);
-  console.log(sessionId);
-  const getUsers = async () => {
-    const response = await instance.post(
-      "/user/get-users",
-      {},
-    );
-    console.log(response);
-  };
-  const getMenus = async () => {
-    const response = await instance.post(
-      "http://localhost:8080/api/v1/menu/get-menus",
-      {withCredentials: true}
-    );
-    console.log(response);
-  };
+  // const { data: menus, status } = useQuery("menus", menuService.getMenus);
+  // useEffect(() => {
+  //   if (sessionId) {
+  //     console.log(sessionId);
+  //     setLogged(true);
+  //   }
+  // }, [sessionId, setLogged]);
+  // const getUsers = async () => {
+  //   const response = await instance.post("/user/get-users", {});
+  //   console.log(response);
+  // };
+
+  // if (status === "loading") {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (status === "error") {
+  //   return <div>Error fetching menus</div>;
+  // }
   return (
     <Template>
       <Container>
-        <Button onClick={getUsers}>
+        {/* <Button onClick={getUsers}>
           <Typography variant="h2">getUsers</Typography>
-        </Button>
-        <Button onClick={getMenus}>
-          <Typography variant="h2">getMenus</Typography>
-        </Button>
+        </Button> */}
         <Typography variant="h2">Home</Typography>
-        
-        
+        <h1>
+        {/* {menus && menus.data && (
+          menus.data.map(menu=>
+            <div key={menu.menuId}>{menu.menuNm}</div>
+          )
+         )} */}
+        </h1>
       </Container>
     </Template>
   );
 }
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const cookies = parseCookies(context);
-  let sessionId = cookies.JSESSIONID;
-  if (sessionId === undefined) {
-    return {
-      props: { sessionId: null },
-    };
-  }
-  return {
-    props: { sessionId: sessionId },
-  };
-}
+export default withAuth(Home);
+export const getServerSideProps = withAuthGetServerSideProps;

@@ -1,4 +1,4 @@
-import SideNav from "@/components/Nav/SideNav";
+import SideNav from "@/components/Nav/SideNav/SideNav";
 import TopNav from "@/components/Nav/TopNav";
 import { Box, Container } from "@mui/material";
 import { ReactNode } from "react";

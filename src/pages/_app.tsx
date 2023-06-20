@@ -2,14 +2,22 @@ import TopNav from "@/components/Nav/TopNav";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+  dehydrate,
+} from "react-query";
+import { useState } from "react";
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 export default function App({
   Component,
   // pageProps: { session, ...pageProps },
   pageProps,
 }: AppProps) {
+  const [queryClient] = useState(()=> new QueryClient());
   return (
     <>
       <Head>
@@ -18,9 +26,15 @@ export default function App({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* <SessionProvider session={session}> */}
-        <RecoilRoot>
-          <Component {...pageProps} />
-        </RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <RecoilRoot>
+            <Component {...pageProps} />
+          </RecoilRoot>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </Hydrate>
+      </QueryClientProvider>
+
       {/* </SessionProvider> */}
     </>
   );

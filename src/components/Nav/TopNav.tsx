@@ -6,16 +6,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
-
+import {destroyCookie} from 'nookies';
 export default function TopNav() {
   const [logged, setLogged] = useRecoilState(loginState);
   const router = useRouter();
   const handleLogout = async () => {
     const result = await authService.logout();
     if (result.code == "00") {
-      console.log(result);
       setLogged(false);
-      console.log(document.cookie);
+      destroyCookie(null, 'JSESSIONID', {path: '/'})
       router.replace("/");
     }
   };
